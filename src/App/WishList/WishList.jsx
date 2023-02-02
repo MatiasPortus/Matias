@@ -2,14 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import WishItem from './WishItem';
 
-function WishList({ wishes }) {
+function WishList({ wishes, onWishChange }) {
   return (
     <ul className="wish-list">
-      {wishes.map(({ text, id, done }) => (
+      {wishes.map(({ text, id, done }, i) => (
         <WishItem
+          key={`wish${id}`}
           text={text}
           done={done}
           id={id}
+          onDoneChange={(value) => {
+            // copio wishes en un array nuevo temporal
+            const tempWishes = [...wishes];
+            tempWishes[i].done = value;
+            onWishChange(tempWishes);
+          }}
         />
       ))}
     </ul>
@@ -22,10 +29,12 @@ WishList.propTypes = {
     text: PropTypes.string,
     done: PropTypes.bool,
   })),
+  onWishChange: PropTypes.func,
 };
 
 WishList.defaultProps = {
   wishes: [],
+  onWishChange: () => { },
 };
 
 export default WishList;

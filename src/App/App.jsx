@@ -17,9 +17,18 @@ function App() {
     <div className="app">
       <Header />
       <WishInput onNewWish={(newWish) => setWishes([newWish, ...wishes])} />
-      <WishList wishes={wishes} />
+      <WishList
+        wishes={wishes}
+        onWishChange={setWishes}
+      />
 
-      <button type="button" className="wish-clear">Archive Wishes</button>
+      <button
+        type="button"
+        className="wish-clear"
+        onClick={() => setWishes(wishes.filter(({ done }) => !done))}
+      >
+        Archive Wishes
+      </button>
     </div>
   );
 }
